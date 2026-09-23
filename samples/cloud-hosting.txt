@@ -1,0 +1,41 @@
+MANAGED CLOUD HOSTING AGREEMENT
+
+This Managed Cloud Hosting Agreement is entered into on 15 November 2024 between Stratus Nine Networks Pvt Ltd ("Supplier") and Brightpath Logistics LLP ("Customer").
+
+1. Term
+
+1.1 This Agreement commences on 15 November 2024 and continues for an initial term of two (2) years.
+
+1.2 At the end of the initial term, this Agreement shall renew automatically for additional periods of one (1) year unless the Customer notifies the Supplier in writing of its intention not to renew at least thirty (30) days before the end of the then-current term.
+
+2. Charges
+
+2.1 The Customer shall pay monthly charges of INR 2,40,000 for the reserved capacity set out in the Order Form.
+
+2.2 Invoices are payable within forty-five (45) days of the invoice date.
+
+2.3 The Supplier may adjust its charges annually, provided that any increase shall not exceed 5% of the charges for the preceding year.
+
+3. Service Levels
+
+3.1 The Supplier shall meet a monthly uptime of 99.9% for the production environment.
+
+3.2 Service credits must be claimed by the Customer in writing within thirty (30) days after the end of the month in which the failure occurred.
+
+4. Security
+
+4.1 The Supplier shall inform the Customer of any security incident affecting the Customer's environment within 24 hours of detection.
+
+4.2 The Supplier shall maintain cyber liability insurance with a limit of not less than INR 5 crore.
+
+5. Exit
+
+5.1 On expiry or termination, the Supplier shall return all Customer data in a standard format and then permanently delete it within sixty (60) days.
+
+6. Liability
+
+6.1 Each party's total liability under this Agreement is limited to the charges paid in the twelve (12) months before the event giving rise to the claim.
+
+7. Governing law
+
+7.1 This Agreement is governed by the laws of India.
