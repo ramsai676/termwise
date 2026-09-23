@@ -1,0 +1,13 @@
+{
+  "name": "termwise",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tracks the deadlines and duties inside your contracts, each one cited to its clause",
+  "author": "Ram Sai Kandagatla <ramsaikandagatla@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/engine.test.js"
+  },
+  "engines": { "node": ">=20" }
+}
