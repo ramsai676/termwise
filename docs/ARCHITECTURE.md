@@ -36,7 +36,7 @@ that renews itself rolls forward to its next term without any background job.
 | API | One Netlify Function on web `Request`/`Response` | No framework to learn or patch; the handler is 150 lines |
 | Storage | Netlify Blobs | Free tier, no server to run, conditional writes available |
 | Front end | Vanilla JS modules, no build step | Nothing to compile; `h()` builds DOM nodes so contract text is never parsed as HTML |
-| Tests | `node:test` | Built in; 39 tests run in under two seconds |
+| Tests | `node:test` | Built in; 40 tests run in under two seconds |
 | Dependencies | `@netlify/blobs` only | Small attack surface, nothing to audit but one SDK |
 
 ## Data model

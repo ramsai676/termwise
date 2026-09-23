@@ -69,7 +69,7 @@ trust a summary.
 
 ## Status
 
-Working product, deployed, with a demo workspace anyone can open. 39 automated
+Working product, deployed, with a demo workspace anyone can open. 40 automated
 tests cover the engine's no-fabrication guarantee, date arithmetic, role
 enforcement, plan limits under concurrent requests, and audit chain tamper
 detection. Payments run in test mode.
