@@ -92,6 +92,10 @@ test('parties and roles come from the preamble', () => {
   ]);
   const fm = extract(read('facility-services.txt'));
   assert.deepEqual(fm.parties.map((p) => p.role), ['Contractor', 'Client']);
+  // "Leave and Licence Agreement ... between": the "and" in the title is not a
+  // party separator.
+  const lease = extract(read('office-lease.txt'));
+  assert.equal(lease.parties[0].name, 'Sai Krupa Estates Private Limited');
 });
 
 test('who owes a duty is the party nearest the verb, not the first one named', () => {
@@ -128,7 +132,7 @@ test('a missed notice window rolls to the next one and says so', () => {
   assert.deepEqual(r.missed, { deadline: '2026-11-02', renewsOn: '2027-01-01' });
   assert.equal(r.renewsOn, '2028-01-01');
   assert.equal(r.due, '2027-11-02');
-  assert.match(r.assumptions[0], /closed on 2026-11-02/);
+  assert.match(r.assumptions[0], /closed on 2 Nov 2026/);
 });
 
 test('an evergreen contract rolls forward through past renewals', () => {
