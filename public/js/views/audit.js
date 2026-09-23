@@ -85,8 +85,8 @@ function describe(e, who) {
       return `${k} ${a} → ${b}`;
     }).join(', ')}`;
     case 'member.role_changed': return `${who(e.target)}: ${d.from} → ${d.to}`;
-    case 'finding.rejected': return `"${d.quote}" · ${d.reason}`;
-    case 'finding.confirmed': return `"${d.quote}"`;
+    case 'finding.rejected': return `${d.type.replace(/_/g, ' ')}${d.clause ? ` in §${d.clause}` : ''} · ${d.reason}`;
+    case 'finding.confirmed': return `${d.type.replace(/_/g, ' ')}${d.clause ? ` in §${d.clause}` : ''} · quote sha256 ${String(d.quoteHash).slice(0, 12)}`;
     case 'billing.plan_changed': return `${d.from} → ${d.to} (test mode, no charge)`;
     default: return Object.keys(d).length ? JSON.stringify(d) : '';
   }

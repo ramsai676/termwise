@@ -223,14 +223,17 @@ test('erasing a contract removes its text and keeps the chain valid', async () =
   const { handler, store } = app();
   const c = await owner(handler);
   const { id } = (await c.post('/api/contracts', { text: crm.text, perspective: 'Customer' })).data;
+  // Review some findings first: reviews are logged, and the log must not keep
+  // any of the text they were about.
+  const doc = (await c.get(`/api/contracts/${id}`)).data;
+  for (const f of doc.findings.slice(0, 3)) await c.post(`/api/contracts/${id}/findings/${f.id}`, { decision: 'confirmed' });
+  await c.post(`/api/contracts/${id}/findings/${doc.findings[3].id}`, { decision: 'rejected', reason: 'Superseded by amendment 2' });
   assert.equal((await c.del(`/api/contracts/${id}`, { reason: 'Contract ended, retention period over' })).status, 200);
   assert.equal((await c.get(`/api/contracts/${id}`)).status, 404);
-  const me = (await c.get('/api/me')).data;
-  const everything = JSON.stringify([...(await store.list(`ws/${me.workspace.id}/`))].map((k) => k));
-  assert.ok(!everything.includes(id + '"') || true);
+  const probes = doc.findings.map((f) => f.quote.slice(0, 40)).concat(['Helixa Software']);
   for (const k of await store.list('')) {
     const v = JSON.stringify((await store.get(k)).value);
-    assert.ok(!v.includes('Helixa Software'), `contract text survived in ${k}`);
+    for (const p of probes) assert.ok(!v.includes(p), `contract text "${p}" survived in ${k}`);
   }
   const log = (await c.get('/api/audit')).data;
   const erased = log.find((e) => e.action === 'contract.erased');
