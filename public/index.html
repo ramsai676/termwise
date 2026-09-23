@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termwise: every date your contracts hold you to</title>
+<meta name="description" content="Termwise reads vendor contracts, finds every renewal window, notice period and duty, and puts each one on a calendar with an owner. Every finding is quoted from the contract with its clause number.">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap row">
+    <a class="brand" href="/"><img src="/img/mark.svg" alt="" width="26" height="26"> Termwise</a>
+    <nav class="links">
+      <a href="#how">How it works</a>
+      <a href="#governance">Governance</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <span class="spacer"></span>
+    <a class="btn ghost" href="/app/login">Sign in</a>
+    <button class="btn primary" data-demo>Open the live demo</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Contract obligations for small and mid-sized firms</p>
+        <h1>Know every date your contracts hold you to.</h1>
+        <p class="lede">Termwise reads your vendor contracts and finds each renewal window, notice period, payment term and duty. It works out the actual date, puts it on a calendar and gives it an owner. Every line it shows you is quoted from the contract with its clause number, so nobody has to take a summary on trust.</p>
+        <div class="row wrap cta">
+          <button class="btn primary big" data-demo>Open the live demo</button>
+          <a class="btn big" href="/app/signup">Create a workspace</a>
+        </div>
+        <p class="small muted">The demo opens a private workspace with four sample contracts. No sign-up. It deletes itself after 24 hours.</p>
+      </div>
+
+      <div class="shot" aria-label="Example deadline card">
+        <div class="shot-head row">
+          <span class="pill high">High</span>
+          <span class="small muted">Managed cloud hosting (Stratus Nine)</span>
+          <span class="spacer"></span>
+          <span class="days"><b>23</b> days</span>
+        </div>
+        <h3>Decide: renew, renegotiate or send non-renewal notice</h3>
+        <p class="small">Due <b>16 Oct 2026</b>. If nothing is sent, the contract renews on 15 Nov 2026 for 1 year, committing about INR 28,80,000.</p>
+        <div class="calc">
+          <div><span class="k">Starts</span> 15 Nov 2024 <a class="cite">Preamble</a></div>
+          <div><span class="k">+ term</span> 2 years <a class="cite">1.1</a></div>
+          <div><span class="k">renews</span> 1 year at a time <a class="cite">1.2</a></div>
+          <div><span class="k">- notice</span> 30 days <a class="cite">1.2</a></div>
+        </div>
+        <blockquote>"...shall renew automatically for additional periods of one (1) year unless the Customer notifies the Supplier in writing of its intention not to renew <mark>at least thirty (30) days</mark> before the end of the then-current term."</blockquote>
+        <div class="row small">
+          <span class="avatar">P</span> Owner: Priya (Finance)
+          <span class="spacer"></span>
+          <span class="pill green">Confirmed by a person</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem">
+    <div class="wrap narrow">
+      <h2>Auto-renewal is how firms keep paying for things they meant to cancel.</h2>
+      <p>A hosting contract signed two years ago renews for another year unless someone sends notice 30 days before the end of the term. The date is not written anywhere. It has to be worked out from the start date, the term length and the notice clause, which sit in three different places. The person who signed has moved on. Finance finds out when the invoice arrives.</p>
+      <p>Large companies buy contract management suites and hire people to run them. A 40-person logistics firm with sixty vendor contracts has a shared drive and a spreadsheet someone stopped updating. Termwise is for that firm.</p>
+    </div>
+  </section>
+
+  <section id="how" class="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><b>Add a contract.</b> Paste the text or drop in a file. Termwise splits it into clauses and reads the parties from the opening paragraph.</li>
+        <li><b>Say which side you are.</b> Customer, supplier, licensee. The same clause is a duty for one party and a right for the other, so Termwise sorts each finding by who it binds.</li>
+        <li><b>Check and assign.</b> Each deadline shows the sum behind it, with every figure linked to the sentence it came from. A person confirms it and gives it an owner.</li>
+        <li><b>Get reminded.</b> Deadlines go into Google Calendar or Outlook through a private feed, with alerts 14 and 3 days before.</li>
+      </ol>
+      <div class="note">
+        <h3>It cannot make things up</h3>
+        <p>Termwise does not generate text. Every finding is a span of the document with its exact character offsets, and the test suite checks that for every sample: the quote must equal the text at those offsets, and every number the finding reports must appear inside it. If a contract says nothing about renewal, Termwise says nothing about renewal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="governance" class="gov">
+    <div class="wrap">
+      <h2>Built to be audited</h2>
+      <div class="grid3">
+        <div><h3>Tamper-evident log</h3><p>Every change is an event that carries the SHA-256 of the one before it. Edit or delete an old event and verification names the exact event where the chain breaks.</p></div>
+        <div><h3>Roles that bite</h3><p>Viewers read, members work obligations, admins manage contracts and people, owners handle billing and erasure. The server checks the role on every request, so a demotion takes effect immediately.</p></div>
+        <div><h3>A person signs off</h3><p>Nothing is final until someone confirms it. Rejecting a finding needs a written reason, and anything calculated from a rejected finding drops out of the register.</p></div>
+        <div><h3>Erasure with proof</h3><p>Deleting a contract removes its text for good. The audit log keeps only its hash, which proves what was held and when it went without keeping any of it.</p></div>
+        <div><h3>Your data, portable</h3><p>Owners can export the whole workspace as one JSON file and the audit log as JSON Lines, or erase the workspace outright.</p></div>
+        <div><h3>Plain security</h3><p>scrypt password hashes, HttpOnly session cookies stored only as hashes, a CSRF header check on every write, a strict content security policy and per-email login rate limits.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <div class="wrap">
+      <h2>Pricing</h2>
+      <p class="muted">Per workspace, billed monthly. Limits are enforced by the server, not just shown here.</p>
+      <div class="plans" id="plans"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap row wrap">
+    <span class="brand small"><img src="/img/mark.svg" alt="" width="18" height="18"> Termwise</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/ramsai676/termwise">Source on GitHub</a>
+    <span class="muted small">Termwise finds and dates contract terms. It is not legal advice.</span>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="/js/landing.js"></script>
+</body>
+</html>
