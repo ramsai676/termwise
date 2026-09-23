@@ -128,8 +128,8 @@ This is a description of features, not a claim of certification.
 | Logging and monitoring | Every state change is an audit event. The chain is SHA-256 linked; `GET /api/audit/verify` recomputes it and names the first bad event |
 | Integrity of records | Contract text is hashed at upload. Findings cite offsets into exactly that text |
 | Human oversight | Findings start unreviewed. Confirming records who and when. Rejecting requires a reason, and deadlines built on a rejected finding drop out of the register |
-| Data minimisation | Audit events never hold contract text, only its hash and the quoted snippet a person reviewed |
-| Right to erasure | Erasing a contract deletes text and findings; the log keeps the hash, proving what was removed without keeping it. Owners can erase a whole workspace |
+| Data minimisation | Audit events never hold contract text. A contract is logged by its title and the SHA-256 of its text; a reviewed finding by its type, clause number and the SHA-256 of its quote |
+| Right to erasure | Erasing a contract deletes text, findings and reviews; the log keeps the title and hash, proving what was removed without keeping it. A test reviews findings, erases the contract, then searches every stored key for the text. Owners can erase a whole workspace |
 | Portability | Full JSON export of a workspace; audit log as JSON Lines |
 | Retention | Demo workspaces are deleted after 24 hours by a scheduled function |
 
