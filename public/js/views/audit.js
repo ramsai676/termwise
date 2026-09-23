@@ -19,7 +19,11 @@ const ACTIONS = {
 };
 
 export async function auditView(ctx) {
-  const [events, check] = await Promise.all([api('GET', '/api/audit?limit=500'), api('GET', '/api/audit/verify')]);
+  const [events, check, members] = await Promise.all([api('GET', '/api/audit?limit=500'), api('GET', '/api/audit/verify'), ctx.members()]);
+  // The log stores ids, which stay true if someone changes their name; the
+  // page shows the current name next to them.
+  const names = new Map(members.map((m) => [m.userId, m.name]));
+  const who = (idOrNull) => (idOrNull ? names.get(idOrNull) || idOrNull : 'none');
   const status = h('div');
   const paintCheck = (r) => status.replaceChildren(h(`div.card.verify.${r.ok ? 'ok' : 'bad'}`,
     h('div',
@@ -42,9 +46,9 @@ export async function auditView(ctx) {
   const rows = [...events].reverse().map((e) => h('tr',
     h('td.nowrap', h('b', `#${e.seq}`)),
     h('td.nowrap.small', when(e.at)),
-    h('td.small', e.actor.email || 'system'),
+    h('td.small', names.get(e.actor.id) || e.actor.email || 'system', names.has(e.actor.id) ? h('div.muted', e.actor.email) : null),
     h('td', h('div', ACTIONS[e.action] || e.action), h('div.hash', e.action)),
-    h('td', h('div.detail-json', describe(e))),
+    h('td', h('div.detail-json', describe(e, who))),
     h('td', h('div.hash', { title: `hash ${e.hash}\nprev ${e.prev}` }, e.hash.slice(0, 10)))
   ));
 
@@ -70,16 +74,20 @@ export async function auditView(ctx) {
   );
 }
 
-function describe(e) {
+function describe(e, who) {
   const d = e.detail || {};
   switch (e.action) {
     case 'contract.added': return `${d.title} · ${d.findings} findings · as ${d.perspective || 'unset'} · text sha256 ${String(d.textHash).slice(0, 12)}`;
     case 'contract.erased': return `${d.title} · text sha256 ${String(d.textHash).slice(0, 12)}${d.reason ? ` · ${d.reason}` : ''}`;
-    case 'obligation.updated': return `${e.target.split('#')[1]}: ${Object.entries(d).map(([k, v]) => (Array.isArray(v) ? `${k} ${v[0] ?? 'none'} → ${v[1] ?? 'none'}` : k)).join(', ')}`;
+    case 'obligation.updated': return `${e.target.split('#')[1]}: ${Object.entries(d).map(([k, v]) => {
+      if (!Array.isArray(v)) return k;
+      const [a, b] = k === 'owner' ? [who(v[0]), who(v[1])] : [v[0] ?? 'none', v[1] ?? 'none'];
+      return `${k} ${a} → ${b}`;
+    }).join(', ')}`;
+    case 'member.role_changed': return `${who(e.target)}: ${d.from} → ${d.to}`;
     case 'finding.rejected': return `"${d.quote}" · ${d.reason}`;
     case 'finding.confirmed': return `"${d.quote}"`;
     case 'billing.plan_changed': return `${d.from} → ${d.to} (test mode, no charge)`;
-    case 'member.role_changed': return `${d.from} → ${d.to}`;
     default: return Object.keys(d).length ? JSON.stringify(d) : '';
   }
 }

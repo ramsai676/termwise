@@ -204,7 +204,7 @@ export async function contractDetail(ctx, id) {
       if (decision === 'rejected' && reason.classList.contains('hidden')) { reason.classList.remove('hidden'); reason.focus(); return; }
       try { await api('POST', `/api/contracts/${id}/findings/${f.id}`, { decision, reason: reason.value }); toast(decision === 'confirmed' ? 'Confirmed' : 'Rejected'); reload(); } catch (e) { toast(e.message, 'error'); }
     };
-    const binds = f.subject === 'either' ? 'Both parties' : f.subject ? `${f.subject}${f.appliesToUs ? ' (you)' : ''}` : 'Not stated';
+    const binds = f.subject === 'either' ? 'Both parties' : f.subject ? `${f.subject}${f.appliesToUs ? ' (you)' : ''}` : 'no party named in this sentence';
     return h(`div.card.finding${r ? '.' + r.decision : ''}`,
       h('div.row',
         h('b', f.label),
@@ -232,16 +232,23 @@ export async function contractDetail(ctx, id) {
   const unreviewed = doc.findings.filter((f) => !reviews[f.id]).length;
   const tabBtns = {};
   const pane = h('div');
+  // The open tab lives in the URL so a save, which re-renders the page, lands
+  // the reader back where they were.
   const show = (k) => {
     Object.entries(tabBtns).forEach(([x, b]) => b.classList.toggle('on', x === k));
     pane.replaceChildren(panes[k]);
+    const q = new URLSearchParams(location.search);
+    if (k === 'ours') q.delete('tab'); else q.set('tab', k);
+    q.delete('item');
+    history.replaceState(null, '', location.pathname + (q.size ? `?${q}` : ''));
   };
   const tabs = h('div.tabs',
     tabBtns.ours = h('button', { onclick: () => show('ours') }, `Your obligations (${ours.length})`),
     tabBtns.findings = h('button', { onclick: () => show('findings') }, `Findings${unreviewed ? ` (${unreviewed} to review)` : ''}`),
     tabBtns.theirs = h('button', { onclick: () => show('theirs') }, `Their side (${theirs.length})`)
   );
-  show('ours');
+  const startTab = new URLSearchParams(location.search).get('tab');
+  show(panes[startTab] ? startTab : 'ours');
 
   // Clicking highlighted text opens the findings it came from.
   docPane.addEventListener('click', (e) => {
