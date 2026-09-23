@@ -1,0 +1,59 @@
+CLOUD CRM SUBSCRIPTION AGREEMENT
+
+This Cloud CRM Subscription Agreement (the "Agreement") is made by and between Helixa Software Private Limited, a company incorporated under the laws of India ("Provider") and Brightpath Logistics LLP ("Customer").
+
+This Agreement is effective as of 1 January 2026 (the "Effective Date").
+
+1. DEFINITIONS
+
+1.1 "Subscription Services" means the hosted customer relationship management platform described in the Order Form.
+
+1.2 "Customer Data" means all data uploaded to the Subscription Services by or on behalf of Customer.
+
+2. TERM AND RENEWAL
+
+2.1 The initial term of this Agreement shall be twelve (12) months from the Effective Date.
+
+2.2 Thereafter this Agreement shall automatically renew for successive periods of twelve (12) months each unless either party gives the other written notice of non-renewal at least sixty (60) days prior to the end of the then-current term.
+
+2.3 Provider may terminate this Agreement for convenience at any time upon thirty (30) days written notice to Customer.
+
+2.4 Either party may terminate this Agreement if the other party commits a material breach that remains uncured for thirty (30) days after written notice of the breach.
+
+3. FEES AND PAYMENT
+
+3.1 Customer shall pay a subscription fee of INR 18,00,000 per year, invoiced annually in advance.
+
+3.2 Customer shall pay each invoice within 30 days of the invoice date.
+
+3.3 Overdue amounts shall bear interest at the rate of 2% per month until paid.
+
+3.4 Provider may increase the fees for any renewal term at its sole discretion by giving notice to Customer.
+
+4. SERVICE LEVELS
+
+4.1 Provider shall make the Subscription Services available 99.5% of the time in each calendar month.
+
+4.2 If Provider fails to meet the availability commitment, Customer may request a service credit, and such request must be made within fifteen (15) days of the end of the affected month. Credits not requested within that period are forfeited.
+
+5. DATA PROTECTION
+
+5.1 Provider shall notify Customer of any personal data breach affecting Customer Data without undue delay and in any event within 72 hours of becoming aware of it.
+
+5.2 Upon termination or expiry, Provider shall return or delete all Customer Data within thirty (30) days, at Customer's election.
+
+6. CONFIDENTIALITY
+
+6.1 Each party shall keep the other party's Confidential Information secret. The obligations in this clause shall survive termination of this Agreement for a period of three (3) years.
+
+7. LIMITATION OF LIABILITY
+
+7.1 Provider's aggregate liability arising out of or in connection with this Agreement shall not exceed the fees paid by Customer in the twelve (12) months preceding the claim.
+
+8. AUDIT
+
+8.1 Customer may audit Provider's security controls and compliance records once per year on thirty (30) days prior written notice.
+
+9. GENERAL
+
+9.1 This Agreement shall be governed by the laws of India and the courts at Hyderabad shall have exclusive jurisdiction.
