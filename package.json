@@ -9,5 +9,10 @@
   "scripts": {
     "test": "node --test test/engine.test.js"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.0"
+  }
 }
