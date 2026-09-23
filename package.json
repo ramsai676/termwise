@@ -7,7 +7,9 @@
   "author": "Ram Sai Kandagatla <ramsaikandagatla@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "node --test test/engine.test.js"
+    "start": "node server.js",
+    "test": "node --test test/engine.test.js test/api.test.js",
+    "samples": "node scripts/build-samples.js"
   },
   "engines": {
     "node": ">=20"
