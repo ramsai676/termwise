@@ -14,6 +14,8 @@ const ACTIONS = {
   'member.removed': 'Removed someone',
   'billing.plan_changed': 'Changed plan',
   'calendar.feed_issued': 'Issued a calendar link',
+  'apikey.created': 'Created an assistant key',
+  'apikey.revoked': 'Revoked an assistant key',
   'audit.exported': 'Exported the audit trail',
   'workspace.exported': 'Exported the workspace'
 };
@@ -47,7 +49,7 @@ export async function auditView(ctx) {
     h('td.nowrap', h('b', `#${e.seq}`)),
     h('td.nowrap.small', when(e.at)),
     h('td.small', names.get(e.actor.id) || e.actor.email || 'system', names.has(e.actor.id) ? h('div.muted', e.actor.email) : null),
-    h('td', h('div', ACTIONS[e.action] || e.action), h('div.hash', e.action)),
+    h('td', h('div', ACTIONS[e.action] || e.action, e.detail?.via === 'mcp' ? [' ', h('span.pill.blue', 'via assistant')] : null), h('div.hash', e.action)),
     h('td', h('div.detail-json', describe(e, who))),
     h('td', h('div.hash', { title: `hash ${e.hash}\nprev ${e.prev}` }, e.hash.slice(0, 10)))
   ));
@@ -75,7 +77,7 @@ export async function auditView(ctx) {
 }
 
 function describe(e, who) {
-  const d = e.detail || {};
+  const { via, keyId, ...d } = e.detail || {};
   switch (e.action) {
     case 'contract.added': return `${d.title} · ${d.findings} findings · as ${d.perspective || 'unset'} · text sha256 ${String(d.textHash).slice(0, 12)}`;
     case 'contract.erased': return `${d.title} · text sha256 ${String(d.textHash).slice(0, 12)}${d.reason ? ` · ${d.reason}` : ''}`;
