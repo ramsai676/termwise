@@ -5,19 +5,22 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHandler } from './lib/api.js';
+import { createMcpHandler } from './lib/mcp.js';
 import { FileStore } from './lib/store/index.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const ROOT = path.resolve('public');
-const handler = createHandler(new FileStore(path.resolve('.data')));
+const store = new FileStore(path.resolve('.data'));
+const handler = createHandler(store);
+const mcp = createMcpHandler(store);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json', '.txt': 'text/plain; charset=utf-8' };
 
 http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.startsWith('/api/') || url.pathname === '/mcp') {
     const chunks = [];
     for await (const c of req) chunks.push(c);
-    const r = await handler(new Request(url, {
+    const r = await (url.pathname === '/mcp' ? mcp : handler)(new Request(url, {
       method: req.method,
       headers: Object.entries(req.headers).filter(([, v]) => typeof v === 'string'),
       body: ['GET', 'HEAD'].includes(req.method) ? undefined : Buffer.concat(chunks)
