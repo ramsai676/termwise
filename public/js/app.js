@@ -6,6 +6,7 @@ import { auditView } from './views/audit.js';
 import { team } from './views/team.js';
 import { billing } from './views/billing.js';
 import { settings } from './views/settings.js';
+import { assistant } from './views/assistant.js';
 
 const root = document.getElementById('root');
 
@@ -13,7 +14,8 @@ const NAV = [
   ['overview', 'Overview', 'M3 12h4l3-8 4 16 3-8h4'],
   ['contracts', 'Contracts', 'M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7'],
   ['obligations', 'Obligations', 'M4 6h2M4 12h2M4 18h2M9 6h11M9 12h11M9 18h11'],
-  ['audit', 'Audit trail', 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4'],
+  ['assistant', 'Assistant', 'M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM5 11a7 7 0 0014 0M12 18v3'],
+  ['audit', 'Audit trail','M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4'],
   ['team', 'Team', 'M16 19v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 10a3 3 0 100-6 3 3 0 000 6zM21 19v-1a4 4 0 00-3-3.9M16 4.1a3 3 0 010 5.8'],
   ['billing', 'Plan & billing', 'M3 7h18v10H3zM3 11h18'],
   ['settings', 'Settings', 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12a7 7 0 00-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 00-2-1.2L14 3h-4l-.5 2.6a7 7 0 00-2 1.2l-2.4-1-2 3.4 2 1.6a7 7 0 000 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 002 1.2L10 21h4l.5-2.6a7 7 0 002-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z']
@@ -85,7 +87,7 @@ async function route() {
     }
   }
 
-  const views = { overview, contracts, obligations, audit: auditView, team, billing, settings };
+  const views = { overview, contracts, obligations, assistant, audit: auditView, team, billing, settings };
   const view = page === 'contracts' && arg ? (c) => contractDetail(c, arg) : views[page];
   if (!view) return go('/app/overview', true);
 
