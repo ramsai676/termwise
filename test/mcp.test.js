@@ -146,6 +146,25 @@ test('keys are stored only as hashes and never listed back', async () => {
   assert.equal(listed[0].hash, undefined);
 });
 
+test('console router sends each sample question to the right tool', async () => {
+  const { route } = await import('../public/js/views/assistant.js');
+  assert.equal(route('What contract deadlines are coming up?').name, 'upcoming_deadlines');
+  assert.deepEqual(route('Anything due in the next 14 days?').arguments, { days: 14 });
+  assert.equal(route('How much renews by default in the next 90 days?').name, 'renewal_exposure');
+  assert.equal(route('Why is the hosting deadline on the 16th of October?').name, 'explain_deadline');
+  const give = route('Give the hosting renewal to Priya.');
+  assert.equal(give.name, 'assign_obligation');
+  assert.equal(give.arguments.person, 'priya');
+  assert.equal(route('Is our audit trail intact?').name, 'verify_audit_trail');
+});
+
+test('a question that names only the contract explains its main deadline', async () => {
+  const { mcp, call } = await setup();
+  const { key } = (await call('POST', '/api/keys', { name: 'Alexa' })).data;
+  const r = await tool(mcp, key, 'explain_deadline', { contract: 'Why is the hosting deadline on the 16th of October?', obligation: 'Why is the hosting deadline on the 16th of October?' });
+  assert.equal(r.structuredContent.obligation, 'renewal_decision');
+});
+
 test('a key cannot have more access than the person who makes it', async () => {
   const { call } = await setup();
   assert.equal((await call('POST', '/api/keys', { name: 'x', role: 'owner' })).status, 400);
