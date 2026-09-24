@@ -20,6 +20,14 @@
                 ▼
           Netlify Blobs, store "termwise", strong consistency
 
+    Voice assistant / MCP client
+        │  POST /mcp, Authorization: Bearer <workspace key>
+        ▼
+    Netlify Function  netlify/functions/mcp.mjs
+        └── lib/mcp.js        key → context (role capped by the issuer), a fresh
+                              McpServer per request over stateless Streamable
+                              HTTP, tools that call the same lib/service.js
+
     Scheduled function  netlify/functions/sweep.mjs  (hourly)
         deletes demo workspaces older than 24 hours
 
@@ -36,8 +44,8 @@ that renews itself rolls forward to its next term without any background job.
 | API | One Netlify Function on web `Request`/`Response` | No framework to learn or patch; the handler is 150 lines |
 | Storage | Netlify Blobs | Free tier, no server to run, conditional writes available |
 | Front end | Vanilla JS modules, no build step | Nothing to compile; `h()` builds DOM nodes so contract text is never parsed as HTML |
-| Tests | `node:test` | Built in; 40 tests run in under two seconds |
-| Dependencies | `@netlify/blobs` only | Small attack surface, nothing to audit but one SDK |
+| Tests | `node:test` | Built in; 51 tests run in a few seconds |
+| Dependencies | `@netlify/blobs`, `@modelcontextprotocol/sdk`, `zod` | Storage SDK, the official MCP SDK, and the schema library it requires. Nothing else |
 
 ## Data model
 
@@ -56,6 +64,8 @@ throughout.
 | `invite/<sha256(token)>` | `{ wsId, email, role, invitedBy, expires }`, deleted on use |
 | `feed/<sha256(token)>` | `{ wsId }`, one live calendar feed per workspace |
 | `rl/login/<sha256(email)>` | `{ start, count }`, fixed-window login rate limit |
+| `apikey/<sha256(key)>` | `{ keyId, wsId, userId, email, role }`. The key itself is shown once and never stored. Revocation deletes this and removes the entry from `ws/<ws>/meta.apiKeys` |
+| `rl/key/<keyId>` | `{ start, count }`, 120 MCP calls a minute per key |
 
 A finding:
 

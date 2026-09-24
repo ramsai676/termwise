@@ -21,7 +21,7 @@ Needs Node 20 or later. No database to install.
 
     npm install
     npm start          # http://localhost:8787, state is kept in .data/
-    npm test           # engine and API tests
+    npm test           # engine, API and MCP tests
 
 Locally the app runs the same request handler as production, with a folder on
 disk standing in for Netlify Blobs.
@@ -34,12 +34,47 @@ The API is one Netlify Function (`netlify/functions/api.mjs`) mounted at
 `/api/*`. A second, scheduled function deletes expired demo workspaces every
 hour. Storage is Netlify Blobs, so there is nothing else to provision.
 
+## Ask it from a voice assistant (MCP)
+
+Termwise is also an MCP server, so Alexa+ or any MCP client can ask "what
+contract deadlines are coming up?", hear the clauses behind a date, give an
+obligation an owner, or mark it done.
+
+    Endpoint   https://termwise-app.netlify.app/mcp
+    Transport  Streamable HTTP, stateless, MCP 2025-11-25
+    Auth       Authorization: Bearer <workspace key>   (Settings, Connect a voice assistant)
+
+| Tool | What it does |
+|---|---|
+| `upcoming_deadlines` | Open dated obligations in the next N days, read out as full dates |
+| `renewal_exposure` | Yearly value that renews by default unless notice goes out, with the last day to send it |
+| `list_contracts` | Contracts with counterparty, term end and next action |
+| `contract_obligations` | What one contract holds you to; name it the way a person would ("the hosting one") |
+| `explain_deadline` | How a date was worked out, quoting every clause it depends on |
+| `assign_obligation` | Give an obligation an owner |
+| `complete_obligation` | Mark it done, with a required note |
+| `verify_audit_trail` | Recompute the hash chain and say whether anything was altered |
+
+A key acts as the person who made it and never with more access: its role is
+capped by that person's current role, so demoting them demotes their keys.
+Only the key's hash is stored. Every change an assistant makes lands in the
+audit trail marked `via: mcp` with the key id. Answers are written to be spoken:
+the text says "16 October 2026, in 22 days" and "46.8 lakh rupees", while
+`structuredContent` carries the same data as fields.
+
+Try it with the MCP Inspector:
+
+    npx @modelcontextprotocol/inspector
+    # Transport: Streamable HTTP, URL: https://termwise-app.netlify.app/mcp
+    # Header: Authorization: Bearer tw_...
+
 ## What is in here
 
     lib/engine/     contract parsing: clauses, durations, dates, extraction, scheduling
     lib/audit.js    hash-chained audit log
     lib/service.js  every business rule: roles, plan limits, obligations, erasure
     lib/api.js      HTTP routes on web-standard Request/Response
+    lib/mcp.js      MCP server: tools for voice assistants, bearer-key auth
     lib/store/      key-value store with conditional writes (Blobs, disk, memory)
     public/         landing page and the app, plain ES modules, no build step
     samples/        four sample contracts used by tests and the demo workspace
