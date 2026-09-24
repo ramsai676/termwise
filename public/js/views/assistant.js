@@ -1,4 +1,4 @@
-import { api, h, toast } from '../common.js';
+import { api, h } from '../common.js';
 
 // A console that talks to Termwise's MCP endpoint the way a voice assistant
 // does: JSON-RPC over Streamable HTTP with a bearer key. The left side is the
@@ -106,9 +106,14 @@ export async function assistant(ctx) {
       panes.classList.remove('hidden');
       input.focus();
     } catch (e) {
+      // Most often the key was revoked. Say so where the person is looking.
       sessionStorage.removeItem('tw_console_key');
+      const had = !!key;
       key = null;
-      toast(e.message, 'error');
+      gate.replaceChildren(
+        h('div.assume', { style: { background: 'var(--red-2)', color: 'var(--red)' } },
+          had ? `The server refused this console's key: ${e.message}` : e.message),
+        ctx.can('manage') ? h('button.btn.primary', { onclick: start }, 'Create a new key and connect') : null);
     }
   };
 
